@@ -32,7 +32,7 @@ def detect():
         # contract_encode.show()
         # file_name_contract = str(uuid.uuid4()) + '.jpg'
         contract_encode = Image.open(io.BytesIO(contract_files)).convert('RGB')
-        contract_encode.thumbnail((int(size_contract_width), int(size_contract_heigth)), Image.Resampling.LANCZOS)
+        contract_encode.thumbnail((int(size_contract_width), int(size_contract_heigth)), Image.LANCZOS)
         # contract_encode.thumbnail((int(size_contract_width),int(size_contract_heigth)), Image.LANCZOS)
         # contract_encode.save(file_name_contract, format='JPEG', subsampling=0, quality=95)
         # im_contract = Image.open(file_name_contract).convert('RGB')
@@ -41,7 +41,7 @@ def detect():
         file_asign = str(uuid.uuid4()) + '.jpg'
         asign_files = flask.request.files["asign"].read()
         asign_encode = Image.open(io.BytesIO(asign_files)).convert('RGB')
-        asign_encode.thumbnail((312, 156), Image.Resampling.LANCZOS)
+        asign_encode.thumbnail((312, 156), Image.LANCZOS)
         asign_encode.save(file_asign, format='JPEG', subsampling=0, quality=95)
         # asign_encode.show()
         size_asign_height = flask.request.form['size_asign_height']
@@ -104,7 +104,7 @@ def add_time_to_image():
     # return send_file(filename, mimetype='image/gif')
     image_file = flask.request.form['image_base64']
     img = Image.open(BytesIO(base64.b64decode(image_file))).convert('RGB')
-    img.thumbnail((624, 312), Image.Resampling.LANCZOS)
+    img.thumbnail((624, 312), Image.LANCZOS)
     w1, h1 = img.size
     image_time = flask.request.form["image_time"]
     image_time = Image.open(BytesIO(base64.b64decode(image_time))).convert('RGB')
