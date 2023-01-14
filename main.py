@@ -7,7 +7,6 @@ import uuid
 import PIL.ImageDraw
 import flask
 import numpy
-import requests as requests
 from flask import Flask
 from PIL import Image, ImageFont
 
@@ -69,6 +68,7 @@ def detect():
 def get_image_time():
     width = flask.request.args.get('width')
     height = flask.request.args.get('height')
+    type = flask.request.args.get('type')
     im_new = Image.new(mode="RGB", size=(int(width), int(height)), color=(255, 255, 255))
     im_cp = im_new.copy()
     draw = PIL.ImageDraw.Draw(im_cp)
@@ -80,9 +80,7 @@ def get_image_time():
     else:
         font_size = x
     now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    truetype_url = 'https://github.com/googlefonts/roboto/blob/main/src/hinted/Roboto-Black.ttf?raw=true'
-    r = requests.get(truetype_url, allow_redirects=True)
-    font = ImageFont.truetype(io.BytesIO(r.content), (font_size // 3))
+    font = ImageFont.truetype("arial.ttf", (font_size // 3))
     draw.text((x, int(height) // 2), str(now), fill=(0, 0, 0), font=font, anchor='ms')
 
     # unique_filename = os.path.join(app.root_path +'./image_time', str(uuid.uuid4()) +".png")
