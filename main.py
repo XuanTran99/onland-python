@@ -38,11 +38,9 @@ def detect():
         # im_contract = Image.open(file_name_contract).convert('RGB')
 
         # image asign
-        file_asign = str(uuid.uuid4()) + '.jpg'
         asign_files = flask.request.files["asign"].read()
         asign_encode = Image.open(io.BytesIO(asign_files)).convert('RGB')
         asign_encode.thumbnail((312, 156), Image.LANCZOS)
-        asign_encode.save(file_asign, format='JPEG', subsampling=0, quality=95)
         # asign_encode.show()
         size_asign_height = flask.request.form['size_asign_height']
         size_asign_width = flask.request.form['size_asign_width']
@@ -50,12 +48,10 @@ def detect():
         # scale_height = (596 - float(size_asign_height)) * 3
         height_nhan = float(size_asign_height) * 2
         width_nhan = float(size_asign_width) * 2
-        im_read_asign = Image.open(file_asign)
         # print(width_nhan)
 
         im_contract = contract_encode.copy()
-        im_contract.paste(im_read_asign, (int(width_nhan), int(height_nhan)))
-        os.remove(file_asign)
+        im_contract.paste(asign_encode, (int(width_nhan), int(height_nhan)))
         # os.remove(file_name_contract)
         # paste_image.show()
         buffered = BytesIO()
