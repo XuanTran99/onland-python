@@ -8,8 +8,8 @@ import PIL.ImageDraw
 import flask
 import numpy
 from flask import Flask
-from PIL import Image
-from PIL import ImageFont
+from PIL import Image, ImageFont
+
 from io import BytesIO
 import datetime
 import base64
@@ -80,7 +80,7 @@ def get_image_time():
     else:
         font_size = x
     now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    font = ImageFont.truetype("arial.ttf", (font_size // 3))
+    font = ImageFont.truetype("Arial.ttf", (font_size // 3))
     draw.text((x, int(height) // 2), str(now), fill=(0, 0, 0), font=font, anchor='ms')
 
     # unique_filename = os.path.join(app.root_path +'./image_time', str(uuid.uuid4()) +".png")
