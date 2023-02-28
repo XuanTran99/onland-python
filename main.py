@@ -116,6 +116,31 @@ def add_time_to_image():
     img_str = base64.b64encode(buffered.getvalue())
     return flask.jsonify({'path': img_str.decode("utf-8")})
 
+@app.route('/up_add_time_to_image', methods=['POST'])
+def up_add_time_to_image():
+    # return send_file(filename, mimetype='image/gif')
+    image_file = flask.request.form['image_base64']
+    width_img = flask.request.form['width_img']
+    height_img = flask.request.form['height_img']
+    img = Image.open(BytesIO(base64.b64decode(image_file))).convert('RGB')
+    print("Tới đây chưa")
+    img.thumbnail((int(width_img), int(height_img)), Image.LANCZOS)
+    print("Tới đây chưa 1")
+    image_time = flask.request.form["image_time"]
+    width_time = flask.request.form['width_time']
+    height_time = flask.request.form['height_time']
+    image_time = Image.open(BytesIO(base64.b64decode(image_time))).convert('RGB')
+    image_time.thumbnail((int(width_time), int(height_time)), Image.LANCZOS)
+
+    local_x = flask.request.form['local_x']
+    local_y = flask.request.form['local_y']
+    img_and_time = img.copy()
+    img_and_time.paste(image_time,(int(local_x), int(local_y)))
+    buffered = BytesIO()
+    img_and_time.save(buffered, format="JPEG")
+    img_str = base64.b64encode(buffered.getvalue())
+    return flask.jsonify({'path': img_str.decode("utf-8")})
+
 @app.route('/rotate_image', methods=['POST'])
 def rotate_image():
     type_rotate: str = flask.request.form['type']
@@ -136,6 +161,6 @@ def rotate_image():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    app.run()
+    app.run(host='192.168.1.40')
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
